@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/Volleyball/static/css/main.d7c52c50.css",
+    "main.js": "/Volleyball/static/js/main.a55ec3ad.js",
+    "index.html": "/Volleyball/index.html",
+    "main.d7c52c50.css.map": "/Volleyball/static/css/main.d7c52c50.css.map",
+    "main.a55ec3ad.js.map": "/Volleyball/static/js/main.a55ec3ad.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.d7c52c50.css",
+    "static/js/main.a55ec3ad.js"
+  ]
+}
