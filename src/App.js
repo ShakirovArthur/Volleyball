@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './App.css'
+
 const App = () => {
     const [allTeams, setAllTeams] = useState([]);
     const [groupA, setGroupA] = useState([]);
@@ -51,14 +52,14 @@ const App = () => {
     };
 
     const generateGames = () => {
-        const gamesGroupA = generateGameSchedule(groupA);
-        const gamesGroupB = generateGameSchedule(groupB);
+        const gamesGroupA = generateRoundRobinSchedule(groupA);
+        const gamesGroupB = generateRoundRobinSchedule(groupB);
 
         setGamesGroupA(gamesGroupA);
         setGamesGroupB(gamesGroupB);
     };
 
-// Функция для перемешивания массива
+    // Функция для перемешивания массива
     const shuffleArray = (array) => {
         const newArray = [...array];
         for (let i = newArray.length - 1; i > 0; i--) {
@@ -68,16 +69,40 @@ const App = () => {
         return newArray;
     };
 
-// Функция для генерации сетки игр между командами одной группы
-    const generateGameSchedule = (teams) => {
+    // Функция для генерации сетки игр между командами одной группы
+    const generateRoundRobinSchedule = (teams) => {
+        const n = teams.length;
+        const groupSize = Math.ceil(n / 2);
         const games = [];
-        for (let i = 0; i < teams.length - 1; i++) {
-            for (let j = i + 1; j < teams.length; j++) {
-                games.push(`${teams[i].name} vs ${teams[j].name}`);
+
+        // Разбиваем команды на две группы
+        const groupA = teams.slice(0, groupSize);
+        const groupB = teams.slice(groupSize);
+
+        // Генерируем игры для каждого раунда игр
+        for (let round = 0; round < n - 1; round++) {
+            const roundGames = [];
+
+            // Генерируем игры для текущего раунда игр
+            for (let i = 0; i < groupSize; i++) {
+                const teamA = groupA[i];
+                const teamB = groupB[i];
+
+                roundGames.push(`${teamA.name} vs ${teamB.name}`);
             }
+
+            // Добавляем игры к результату и помещаем команды в новые группы
+            games.push(...roundGames);
+
+            const lastTeamA = groupA.pop();
+            const firstTeamB = groupB.shift();
+            groupA.splice(1, 0, firstTeamB);
+            groupB.push(lastTeamA);
         }
+
         return games;
     };
+
 
     return (
         <div className='container'>
@@ -93,7 +118,7 @@ const App = () => {
             </ul>
 
             <div className='second-container'>
-                <input type="text" value={newTeamName} onChange={(e) => setNewTeamName(e.target.value)}/>
+                <input type="text" value={newTeamName} onChange={(e) => setNewTeamName(e.target.value)} />
                 <button onClick={() => handleAddTeam(newTeamName)}>Добавить команду</button>
                 <button onClick={generateGroups}>Сгенерировать группы</button>
                 <button onClick={generateGames}>Сгенерировать сетку игр</button>
@@ -115,7 +140,6 @@ const App = () => {
             </div>
 
             <div>
-
                 <h2>Сетка игр группы A</h2>
                 <ul>
                     {gamesGroupA.map((game, index) => (
@@ -133,4 +157,4 @@ const App = () => {
     );
 }
 
-    export default App;
+export default App;
