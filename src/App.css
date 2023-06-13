@@ -1,38 +1,95 @@
-.App {
-  text-align: center;
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h2 {
+  font-size: 24px;
+  margin-top: 20px;
+  margin-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+ul {
+  list-style: none;
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-left: 0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+li {
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  margin-bottom: 10px;
 }
 
-.App-link {
-  color: #61dafb;
+li span {
+  font-size: 16px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+button {
+  padding: 8px 16px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0062cc;
+}
+
+input[type="text"] {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-right: 10px;
+}
+
+.second-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.second-container button {
+  margin-left: 10px;
+}
+
+div > ul {
+  margin-top: 0;
+  margin-bottom: 20px;
+  padding-left: 0;
+}
+
+div > ul > li {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 767px) {
+  h2 {
+    font-size: 20px;
   }
-  to {
-    transform: rotate(360deg);
+  .second-container{
+    display: block;
+  }
+  li span {
+    font-size: 14px;
+  }
+
+  button {
+    font-size: 14px;
+    padding: 6px 12px;
+    margin: 2px;
+  }
+
+  input[type="text"] {
+    font-size: 14px;
+    padding: 6px;
   }
 }
