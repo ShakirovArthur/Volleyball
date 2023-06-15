@@ -69,35 +69,36 @@ const App = () => {
         return newArray;
     };
 
+    const generateAllPairs = (teams) => {
+        const n = teams.length;
+        const pairs = [];
+        for (let i = 0; i < n; i++) {
+            for (let j = i + 1; j < n; j++) {
+                pairs.push([teams[i], teams[j]]);
+            }
+        }
+        return pairs;
+    };
     // Функция для генерации сетки игр между командами одной группы
     const generateRoundRobinSchedule = (teams) => {
         const n = teams.length;
-        const groupSize = Math.ceil(n / 2);
+        const shuffledTeams = shuffleArray(teams); // Перемешиваем команды
         const games = [];
 
-        // Разбиваем команды на две группы
-        const groupA = teams.slice(0, groupSize);
-        const groupB = teams.slice(groupSize);
-
-        // Генерируем игры для каждого раунда игр
         for (let round = 0; round < n - 1; round++) {
             const roundGames = [];
 
-            // Генерируем игры для текущего раунда игр
-            for (let i = 0; i < groupSize; i++) {
-                const teamA = groupA[i];
-                const teamB = groupB[i];
-
+            for (let i = 0; i < n / 2; i++) {
+                const teamA = shuffledTeams[i];
+                const teamB = shuffledTeams[n - i - 1];
                 roundGames.push(`${teamA.name} vs ${teamB.name}`);
             }
 
-            // Добавляем игры к результату и помещаем команды в новые группы
             games.push(...roundGames);
 
-            const lastTeamA = groupA.pop();
-            const firstTeamB = groupB.shift();
-            groupA.splice(1, 0, firstTeamB);
-            groupB.push(lastTeamA);
+            // Перемещаем последнюю команду в начало массива, оставляя первую на месте
+            const lastTeam = shuffledTeams.pop();
+            shuffledTeams.splice(1, 0, lastTeam);
         }
 
         return games;
