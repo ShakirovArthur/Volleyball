@@ -8,6 +8,23 @@ const App = () => {
     const [gamesGroupA, setGamesGroupA] = useState([]);
     const [gamesGroupB, setGamesGroupB] = useState([]);
     const [newTeamName, setNewTeamName] = useState('');
+    const [editingTeamIndex, setEditingTeamIndex] = useState(-1);
+
+    const handleEditTeam = (index) => {
+        setEditingTeamIndex(index);
+        setNewTeamName(allTeams[index].name);
+    };
+
+    const handleUpdateTeam = () => {
+        setAllTeams((prevAllTeams) => {
+            const updatedTeams = [...prevAllTeams];
+            updatedTeams[editingTeamIndex].name = newTeamName;
+            return updatedTeams;
+        });
+        setEditingTeamIndex(-1);
+        setNewTeamName('');
+    };
+
 
     const handleAddTeam = (teamName) => {
         setAllTeams((prevAllTeams) => {
@@ -69,16 +86,6 @@ const App = () => {
         return newArray;
     };
 
-    const generateAllPairs = (teams) => {
-        const n = teams.length;
-        const pairs = [];
-        for (let i = 0; i < n; i++) {
-            for (let j = i + 1; j < n; j++) {
-                pairs.push([teams[i], teams[j]]);
-            }
-        }
-        return pairs;
-    };
     // Функция для генерации сетки игр между командами одной группы
     const generateRoundRobinSchedule = (teams) => {
         const n = teams.length;
@@ -111,9 +118,19 @@ const App = () => {
             <ul>
                 {allTeams.map((team, index) => (
                     <li key={index}>
-                        <span>{team.name} (Победы: {team.wins}, Поражения: {team.losses})</span>
-                        <button onClick={() => handleAddWin(team.name)}>+1 победа</button>
-                        <button onClick={() => handleAddLoss(team.name)}>+1 поражение</button>
+                        {editingTeamIndex === index ? (
+                            <>
+                                <input type="text" value={newTeamName} onChange={(e) => setNewTeamName(e.target.value)} />
+                                <button onClick={handleUpdateTeam}>Обновить</button>
+                            </>
+                        ) : (
+                            <>
+                                <span>{team.name} (Победы: {team.wins}, Поражения: {team.losses})</span>
+                                <button onClick={() => handleAddWin(team.name)}>+1 победа</button>
+                                <button onClick={() => handleAddLoss(team.name)}>+1 поражение</button>
+                                <button onClick={() => handleEditTeam(index)}>Редактировать</button>
+                            </>
+                        )}
                     </li>
                 ))}
             </ul>
